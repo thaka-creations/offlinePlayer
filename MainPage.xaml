@@ -19,11 +19,11 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type x:String}">
                     <Grid Padding="0,5">
-                        <Frame>
+                        <Frame HasShadow="True" BorderColor="LightGray" Margin="5">
                             <Button Text="{Binding .}" FontSize="24" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}" 
                                     CommandParameter="{Binding .}" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
                         </Frame>
-                        <Frame>
+                        <Frame HasShadow="True" BorderColor="LightGray" Margin="5">
                             <Button Text="Delete" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}" 
                                     CommandParameter="{Binding .}" HorizontalOptions="End" VerticalOptions="Center"/>
                         </Frame>
