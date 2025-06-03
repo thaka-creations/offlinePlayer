@@ -22,6 +22,10 @@ namespace tplayer
             builder.Services.AddTransient<DetailPage>();
             builder.Services.AddTransient<ViewModel.DetailViewModel>();
 
+            // authentication
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<ViewModel.LoginViewModel>();
+
 #if DEBUG
             builder.Logging.AddDebug();
             

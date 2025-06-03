@@ -7,6 +7,11 @@
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(DetailPage), typeof(DetailPage));
+            
+            //authentication
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+            Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
         }
     }
 }
