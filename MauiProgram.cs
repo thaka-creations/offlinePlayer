@@ -15,10 +15,16 @@ namespace tplayer
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
-#endif
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<ViewModel.MainViewModel>();
 
+            builder.Services.AddTransient<DetailPage>();
+            builder.Services.AddTransient<ViewModel.DetailViewModel>();
+
+#if DEBUG
+            builder.Logging.AddDebug();
+            
+#endif
             return builder.Build();
         }
     }
