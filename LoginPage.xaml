@@ -26,7 +26,6 @@
             <VerticalStackLayout Spacing="15">
                 <Entry 
                     Placeholder="Username"
-                    Keyboard="Username"
                     Text="{Binding Username}"/>
 
                 <Entry 

@@ -1,9 +1,12 @@
+using tplayer.ViewModel;
+
 namespace tplayer;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(LoginViewModel vm)
 	{
 		InitializeComponent();
-	}
+        BindingContext = vm;
+    }
 }
