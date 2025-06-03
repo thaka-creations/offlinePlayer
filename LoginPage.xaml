@@ -2,11 +2,63 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tplayer.LoginPage"
-             Title="LoginPage">
-    <VerticalStackLayout>
+             Title="Login - TafaPlayer"
+             BackgroundColor="{StaticResource Secondary}">
+    <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+
+        <Image Source="tafaplayer_logo.png"
+               HeightRequest="150"
+               SemanticProperties.Description="TafaPlayer Logo"/>
+
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
+            Text="Welcome to TafaPlayer"
+            SemanticProperties.HeadingLevel="Level1"
+            FontSize="32"
             HorizontalOptions="Center" />
+
+        <Label 
+            Text="Sign in to continue"
+            SemanticProperties.HeadingLevel="Level2"
+            FontSize="18"
+            HorizontalOptions="Center" />
+
+        <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
+            <VerticalStackLayout Spacing="15">
+                <Entry 
+                    Placeholder="Email"
+                    Keyboard="Email"
+                    Text="{Binding Email}"/>
+
+                <Entry 
+                    Placeholder="Password"
+                    IsPassword="True"
+                    Text="{Binding Password}"/>
+
+                <Button 
+                    Text="Sign In"
+                    SemanticProperties.Hint="Sign in to your TafaPlayer account"
+                    Command="{Binding LoginCommand}"
+                    HorizontalOptions="Fill"/>
+
+                <Label 
+                    Text="Forgot Password?"
+                    TextColor="{StaticResource Primary}"
+                    HorizontalOptions="End">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+        </Frame>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+            <Label Text="Don't have an account?"/>
+            <Label Text="Sign Up" TextColor="{StaticResource Primary}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+
     </VerticalStackLayout>
 </ContentPage>
