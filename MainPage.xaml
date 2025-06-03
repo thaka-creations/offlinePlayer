@@ -17,16 +17,26 @@
                         SelectionMode="Single"
                         >
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type x:String}">
-                    <Grid Padding="0,5">
-                        <Frame HasShadow="True" BorderColor="LightGray" Margin="5">
-                            <Button Text="{Binding .}" FontSize="24" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}" 
-                                    CommandParameter="{Binding .}" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
-                        </Frame>
-                        <Frame HasShadow="True" BorderColor="LightGray" Margin="5">
-                            <Button Text="Delete" BackgroundColor="Red" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}" 
-                                    CommandParameter="{Binding .}" HorizontalOptions="End" VerticalOptions="Center"/>
-                        </Frame>
+                <DataTemplate x:DataType="x:String">
+                    <Grid Padding="0,5" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <!-- Text button (Tap) -->
+                        <Button 
+                    Text="{Binding .}" 
+                    FontSize="24" 
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TapCommand}" 
+                    CommandParameter="{Binding .}" 
+                    VerticalOptions="Center"
+                    Grid.Column="0"/>
+
+                        <!-- Delete button -->
+                        <Button 
+                    Text="Delete" 
+                    BackgroundColor="Red" 
+                    TextColor="White"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}" 
+                    CommandParameter="{Binding .}" 
+                    VerticalOptions="Center"
+                    Grid.Column="1"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
