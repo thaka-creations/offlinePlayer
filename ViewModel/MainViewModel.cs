@@ -2,14 +2,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace tplayer.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
+        IConnectivity connectivity;
         public MainViewModel() { 
             Items = new ObservableCollection<string>();
+            this.connectivity = connectivity;
         }
         
         [ObservableProperty]
@@ -19,9 +20,16 @@ namespace tplayer.ViewModel
         string text;
 
         [RelayCommand]
-        void Add()
+        async Task Add()
         {
             if (string.IsNullOrWhiteSpace(Text)) return;
+
+            if (connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert("Uh Oh!", "No internet", "OK");
+                return;
+            }
+
             Items.Add(Text);
             Text = string.Empty;
         }
