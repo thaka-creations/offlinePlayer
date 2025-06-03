@@ -1,5 +1,4 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
@@ -7,8 +6,9 @@ namespace tplayer.ViewModel
 {
     public partial class MainViewModel : ObservableObject
     {
-        IConnectivity connectivity;
-        public MainViewModel() { 
+        private readonly IConnectivity connectivity;
+        
+        public MainViewModel(IConnectivity connectivity) { 
             Items = new ObservableCollection<string>();
             this.connectivity = connectivity;
         }
