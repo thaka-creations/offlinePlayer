@@ -14,7 +14,7 @@
 
         <CollectionView Grid.Row="2" Grid.ColumnSpan="2" 
                         ItemsSource="{Binding Items}"
-                        SelectionMode="None"
+                        SelectionMode="Single"
                         >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type x:String}">
