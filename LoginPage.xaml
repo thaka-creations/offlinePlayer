@@ -25,9 +25,9 @@
         <Frame BorderColor="Gray" Padding="15" CornerRadius="10">
             <VerticalStackLayout Spacing="15">
                 <Entry 
-                    Placeholder="Email"
-                    Keyboard="Email"
-                    Text="{Binding Email}"/>
+                    Placeholder="Username"
+                    Keyboard="Username"
+                    Text="{Binding Username}"/>
 
                 <Entry 
                     Placeholder="Password"
