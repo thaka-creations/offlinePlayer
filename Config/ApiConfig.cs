@@ -2,7 +2,12 @@ namespace tplayer.Config
 {
     public static class ApiConfig
     {
-        public static string BaseUrl { get; } = "http://192.168.214.25:5600/api/v1";
+        /// <summary>
+        /// The base URL for the TafaPlayer API server.
+        /// Format: http://{host}:{port}/api/v1
+        /// This should point to your local development server or production API endpoint.
+        /// </summary>
+        public static string BaseUrl { get; } = "http://45.79.97.25:5600/api/v1";
 
         public static class Endpoints
         {

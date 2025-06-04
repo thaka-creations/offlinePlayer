@@ -20,9 +20,19 @@ namespace tplayer.ViewModel
         [ObservableProperty]
         private string errorMessage;
 
+        [ObservableProperty]
+        private bool isPasswordVisible;
+
         public LoginViewModel()
         {
             _authService = new AuthService(new SecureStorageService());
+            IsPasswordVisible = false;
+        }
+
+        [RelayCommand]
+        void TogglePasswordVisibility()
+        {
+            IsPasswordVisible = !IsPasswordVisible;
         }
 
         [RelayCommand]
@@ -63,10 +73,7 @@ namespace tplayer.ViewModel
                 {
                     await Shell.Current.DisplayAlert(
                         "Connection Error",
-                        "Unable to connect to the server. Please check:\n\n" +
-                        "1. Your internet connection\n" +
-                        "2. If the server is running\n" +
-                        "3. If the server address is correct",
+                        "Unable to connect to the server",
                         "OK"
                     );
                 }
