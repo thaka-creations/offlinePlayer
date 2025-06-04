@@ -1,10 +1,11 @@
+using tplayer.ViewModel;
+
 namespace tplayer;
 
 public partial class HomePage : ContentPage
 {
-	public HomePage(HomeViewModel viewModel)
+	public HomePage()
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
 	}
 }
