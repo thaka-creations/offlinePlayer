@@ -33,6 +33,13 @@
                     IsPassword="True"
                     Text="{Binding Password}"/>
 
+                <Label 
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Red"
+                    FontSize="14"
+                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"
+                    HorizontalOptions="Center"/>
+
                 <Button 
                     Text="Sign In"
                     SemanticProperties.Hint="Sign in to your TafaPlayer account"

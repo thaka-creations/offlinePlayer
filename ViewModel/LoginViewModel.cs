@@ -17,6 +17,9 @@ namespace tplayer.ViewModel
         [ObservableProperty]
         private bool isLoading;
 
+        [ObservableProperty]
+        private string errorMessage;
+
         public LoginViewModel()
         {
             _authService = new AuthService(new SecureStorageService());
@@ -33,13 +36,15 @@ namespace tplayer.ViewModel
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                await Shell.Current.DisplayAlert("Error", "Please enter both username and password.", "OK");
+                ErrorMessage = "Please enter both username and password.";
                 return;
             }
 
             try
             {
                 IsLoading = true;
+                ErrorMessage = string.Empty;
+                
                 await _authService.LoginAsync(Username, Password);
 
                 // Clear sensitive data
@@ -50,12 +55,25 @@ namespace tplayer.ViewModel
             }
             catch (HttpRequestException ex)
             {
-                await Shell.Current.DisplayAlert("Error", "Login failed. Please check your credentials.", "OK");
+                ErrorMessage = ex.Message;
                 System.Diagnostics.Debug.WriteLine($"Login error: {ex.Message}");
+                
+                // Show alert for connection errors
+                if (ex.Message.Contains("Cannot connect") || ex.Message.Contains("not reachable"))
+                {
+                    await Shell.Current.DisplayAlert(
+                        "Connection Error",
+                        "Unable to connect to the server. Please check:\n\n" +
+                        "1. Your internet connection\n" +
+                        "2. If the server is running\n" +
+                        "3. If the server address is correct",
+                        "OK"
+                    );
+                }
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", "An unexpected error occurred.", "OK");
+                ErrorMessage = "An unexpected error occurred. Please try again.";
                 System.Diagnostics.Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
             finally

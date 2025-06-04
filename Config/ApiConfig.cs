@@ -2,7 +2,7 @@ namespace tplayer.Config
 {
     public static class ApiConfig
     {
-        public static string BaseUrl { get; } = "http://localhost:5600/api/v1";
+        public static string BaseUrl { get; } = "http://192.168.214.25:5600/api/v1";
 
         public static class Endpoints
         {

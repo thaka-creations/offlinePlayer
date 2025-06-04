@@ -14,6 +14,12 @@ namespace tplayer.Services
 
         public async Task<AuthResponse> LoginAsync(string username, string password)
         {
+            // Check if server is reachable first
+            if (!await IsServerReachableAsync(ApiConfig.BaseUrl))
+            {
+                throw new HttpRequestException("Server is not reachable. Please check if the server is running and try again.");
+            }
+
             var loginData = new { username, password };
             var response = await PostAsync<AuthResponse, object>(ApiConfig.Endpoints.Login, loginData);
             
