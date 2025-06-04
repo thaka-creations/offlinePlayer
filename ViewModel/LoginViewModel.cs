@@ -61,7 +61,7 @@ namespace tplayer.ViewModel
                 Username = string.Empty;
                 Password = string.Empty;
 
-                await Shell.Current.GoToAsync(nameof(MainPage));
+                await Shell.Current.GoToAsync(nameof(RegisterPage));
             }
             catch (HttpRequestException ex)
             {
