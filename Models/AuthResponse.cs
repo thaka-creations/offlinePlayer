@@ -2,6 +2,12 @@ using System.Text.Json.Serialization;
 
 namespace tplayer.Models
 {
+    public class AuthResponseWrapper
+    {
+        [JsonPropertyName("message")]
+        public AuthResponse Message { get; set; }
+    }
+
     public class AuthResponse
     {
         [JsonPropertyName("access_token")]

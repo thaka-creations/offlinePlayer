@@ -21,15 +21,16 @@ namespace tplayer.Services
             }
 
             var loginData = new { username, password };
-            var response = await PostAsync<AuthResponse, object>(ApiConfig.Endpoints.Login, loginData);
+            var response = await PostAsync<AuthResponseWrapper, object>(ApiConfig.Endpoints.Login, loginData);
             
-            if (response != null)
+            if (response?.Message != null)
             {
-                await _secureStorage.StoreAuthDataAsync(response);
-                SetAuthToken(response.AccessToken);
+                await _secureStorage.StoreAuthDataAsync(response.Message);
+                SetAuthToken(response.Message.AccessToken);
+                return response.Message;
             }
 
-            return response;
+            throw new HttpRequestException("Invalid response from server");
         }
 
         public async Task LogoutAsync()
