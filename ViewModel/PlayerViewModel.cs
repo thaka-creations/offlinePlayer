@@ -1,15 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Maui.Core.Views;
 using Microsoft.Maui.Controls;
 using System.ComponentModel;
+using LibVLCSharp.Shared;
+using LibVLCSharp.Platforms.MAUI;
 
 namespace tplayer.ViewModel
 {
     public partial class PlayerViewModel : ObservableObject
     {
         private IDispatcherTimer _timer;
+        private LibVLC _libVLC;
+        private MediaPlayer _mediaPlayer;
 
         [ObservableProperty]
         private bool isLoading;
@@ -38,16 +40,27 @@ namespace tplayer.ViewModel
         [ObservableProperty]
         private string currentMedia;
 
-        private MediaElement mediaElement;
+        private VideoView videoView;
 
         public PlayerViewModel()
         {
+            Core.Initialize();
+            _libVLC = new LibVLC();
+            _mediaPlayer = new MediaPlayer(_libVLC);
+            _mediaPlayer.Playing += (s, e) => OnPlayerStateChanged(VLCState.Playing);
+            _mediaPlayer.Paused += (s, e) => OnPlayerStateChanged(VLCState.Paused);
+            _mediaPlayer.Stopped += (s, e) => OnPlayerStateChanged(VLCState.Stopped);
+            _mediaPlayer.EncounteredError += (s, e) => OnPlayerStateChanged(VLCState.Error);
             SetupTimer();
         }
 
-        public void SetMediaElement(MediaElement element)
+        public void SetVideoView(VideoView view)
         {
-            mediaElement = element;
+            videoView = view;
+            if (videoView != null)
+            {
+                videoView.MediaPlayer = _mediaPlayer;
+            }
         }
 
         private void SetupTimer()
@@ -65,8 +78,10 @@ namespace tplayer.ViewModel
 
         private void UpdateTimeDisplay()
         {
-            if (Duration > TimeSpan.Zero)
+            if (_mediaPlayer != null && _mediaPlayer.Length > 0)
             {
+                Position = TimeSpan.FromMilliseconds(_mediaPlayer.Time);
+                Duration = TimeSpan.FromMilliseconds(_mediaPlayer.Length);
                 TimeDisplay = $"{Position:mm\\:ss} / {Duration:mm\\:ss}";
             }
         }
@@ -76,9 +91,9 @@ namespace tplayer.ViewModel
             if (e.PropertyName == nameof(Volume))
             {
                 VolumeIcon = Volume == 0 ? "🔇" : Volume < 50 ? "🔉" : "🔊";
-                if (mediaElement != null)
+                if (_mediaPlayer != null)
                 {
-                    mediaElement.Volume = Volume / 100.0;
+                    _mediaPlayer.Volume = Volume;
                 }
             }
         }
@@ -90,16 +105,16 @@ namespace tplayer.ViewModel
             {
                 await OpenFile();
             }
-            else if (mediaElement != null)
+            else if (_mediaPlayer != null)
             {
-                if (mediaElement.CurrentState == MediaElementState.Playing)
+                if (_mediaPlayer.IsPlaying)
                 {
-                    mediaElement.Pause();
+                    _mediaPlayer.Pause();
                     PlayPauseIcon = "▶";
                 }
                 else
                 {
-                    mediaElement.Play();
+                    _mediaPlayer.Play();
                     PlayPauseIcon = "⏸";
                 }
             }
@@ -119,9 +134,13 @@ namespace tplayer.ViewModel
                     IsLoading = true;
                     CurrentMedia = result.FullPath;
                     PlayPauseIcon = "⏸";
-                    if (mediaElement != null)
+                    if (_mediaPlayer != null)
                     {
-                        mediaElement.Play();
+                        using (var media = new Media(_libVLC, result.FullPath, FromType.FromPath))
+                        {
+                            _mediaPlayer.Media = media;
+                            _mediaPlayer.Play();
+                        }
                     }
                 }
             }
@@ -136,22 +155,22 @@ namespace tplayer.ViewModel
             }
         }
 
-        public void OnMediaStateChanged(MediaStateChangedEventArgs args)
+        private void OnPlayerStateChanged(VLCState state)
         {
-            switch (args.NewState)
+            switch (state)
             {
-                case MediaElementState.Playing:
+                case VLCState.Playing:
                     PlayPauseIcon = "⏸";
                     IsLoading = false;
                     break;
-                case MediaElementState.Paused:
+                case VLCState.Paused:
                     PlayPauseIcon = "▶";
                     break;
-                case MediaElementState.Stopped:
+                case VLCState.Stopped:
                     PlayPauseIcon = "▶";
                     Position = TimeSpan.Zero;
                     break;
-                case MediaElementState.Failed:
+                case VLCState.Error:
                     ErrorMessage = "Error playing media";
                     IsLoading = false;
                     break;
