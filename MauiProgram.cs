@@ -26,6 +26,9 @@ namespace tplayer
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<ViewModel.LoginViewModel>();
 
+            builder.Services.AddTransient<HomePage>();
+            builder.Services.AddTransient<ViewModel.HomeViewModel>();
+
 #if DEBUG
             builder.Logging.AddDebug();
             

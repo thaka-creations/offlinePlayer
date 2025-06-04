@@ -2,11 +2,68 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tplayer.HomePage"
-             Title="HomePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:vm="clr-namespace:tplayer.ViewModel"
+             xmlns:local="clr-namespace:tplayer"
+             Title="TafaPlayer">
+
+    <ContentPage.Resources>
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#4a90e2"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="CornerRadius" Value="25"/>
+            <Setter Property="Margin" Value="20,10"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="Padding" Value="20,0"/>
+            <Setter Property="BorderColor" Value="#3a80d2"/>
+            <Setter Property="BorderWidth" Value="1"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid>
+        <!-- Background Image with Gradient Overlay -->
+        <Grid>
+            <Image Aspect="AspectFill" 
+                   Source="background.png"
+                   Opacity="0.7"/>
+            <BoxView Color="#80000000" /> <!-- Semi-transparent overlay -->
+        </Grid>
+
+        <!-- Content -->
+        <Grid RowDefinitions="Auto,*,Auto"
+              Padding="20">
+
+            <!-- Logo Section -->
+            <Frame Grid.Row="0"
+                   BackgroundColor="Transparent"
+                   BorderColor="Transparent"
+                   Padding="20"
+                   Margin="0,40,0,20"
+                   HorizontalOptions="Center">
+                <Image Source="logo.png"
+                       HeightRequest="120"
+                       Aspect="AspectFit"
+                       HorizontalOptions="Center"/>
+            </Frame>
+
+            <!-- Buttons Section -->
+            <VerticalStackLayout Grid.Row="2" 
+                               Spacing="15"
+                               Margin="0,20,0,40">
+                
+                <Button Text="Open Player"
+                        Style="{StaticResource ActionButton}"
+                        Command="{Binding OpenPlayerCommand}"/>
+
+                <Button Text="My Account"
+                        Style="{StaticResource ActionButton}"
+                        Command="{Binding MyAccountCommand}"/>
+
+                <Button Text="Activate Key"
+                        Style="{StaticResource ActionButton}"
+                        Command="{Binding ShowActivationDialogCommand}"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
 </ContentPage>
