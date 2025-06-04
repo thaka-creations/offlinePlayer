@@ -2,11 +2,63 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="tplayer.RegisterPage"
-             Title="RegisterPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Register">
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+            <Label 
+                Text="Create an Account"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Entry
+                x:Name="FirstName"
+                Placeholder="First Name"
+                PlaceholderColor="Gray"/>
+
+            <Entry
+                x:Name="LastName"
+                Placeholder="Last Name"
+                PlaceholderColor="Gray"/>
+
+            <Entry
+                x:Name="Email"
+                Placeholder="Email"
+                Keyboard="Email"
+                PlaceholderColor="Gray"/>
+
+            <Entry
+                x:Name="Phone"
+                Placeholder="Phone Number"
+                Keyboard="Telephone"
+                PlaceholderColor="Gray"/>
+
+            <Entry
+                x:Name="Password"
+                Placeholder="Password"
+                IsPassword="True"
+                PlaceholderColor="Gray"/>
+
+            <Entry
+                x:Name="ConfirmPassword"
+                Placeholder="Confirm Password"
+                IsPassword="True"
+                PlaceholderColor="Gray"/>
+
+            <Button
+                x:Name="RegisterButton"
+                Text="Register"
+                SemanticProperties.Hint="Register a new account"
+                HorizontalOptions="Center" />
+
+            <Label 
+                Text="Already have an account? Login"
+                HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
