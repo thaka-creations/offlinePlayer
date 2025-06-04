@@ -18,7 +18,7 @@ namespace tplayer.ViewModel
         {
             try
             {
-                await Shell.Current.GoToAsync("//PlayerPage");
+                await Shell.Current.GoToAsync($"//{nameof(PlayerPage)}");
             }
             catch (Exception ex)
             {
@@ -32,7 +32,7 @@ namespace tplayer.ViewModel
         {
             try
             {
-                await Shell.Current.GoToAsync("//AccountPage");
+                await Shell.Current.GoToAsync($"//{nameof(AccountPage)}");
             }
             catch (Exception ex)
             {

@@ -17,4 +17,14 @@
         ContentTemplate="{DataTemplate local:HomePage}"
         Route="HomePage" />
 
+    <ShellContent
+        Title="Player"
+        ContentTemplate="{DataTemplate local:PlayerPage}"
+        Route="PlayerPage" />
+
+    <ShellContent
+        Title="Account"
+        ContentTemplate="{DataTemplate local:AccountPage}"
+        Route="AccountPage" />
+
 </Shell>

@@ -29,6 +29,12 @@ namespace tplayer
             builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<ViewModel.HomeViewModel>();
 
+            builder.Services.AddTransient<PlayerPage>();
+            builder.Services.AddTransient<ViewModel.PlayerViewModel>();
+
+            builder.Services.AddTransient<AccountPage>();
+            builder.Services.AddTransient<ViewModel.AccountViewModel>();
+
 #if DEBUG
             builder.Logging.AddDebug();
             
