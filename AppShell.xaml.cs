@@ -13,6 +13,8 @@
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+            Routing.RegisterRoute(nameof(PlayerPage), typeof(PlayerPage));
+            Routing.RegisterRoute(nameof(AccountPage), typeof(AccountPage));
         }
     }
 }
