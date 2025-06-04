@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource Secondary}">
     <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
 
-        <Image Source="tafaplayer_logo.png"
+        <Image Source="logo.png"
                HeightRequest="150"
                SemanticProperties.Description="TafaPlayer Logo"/>
 
