@@ -46,7 +46,7 @@ namespace tplayer.ViewModel
         {
             if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
             {
-                ErrorMessage = "Please enter both username and password.";
+                await Shell.Current.DisplayAlert("Validation Error", "Please enter both username and password.", "OK");
                 return;
             }
 
@@ -65,22 +65,13 @@ namespace tplayer.ViewModel
             }
             catch (HttpRequestException ex)
             {
-                ErrorMessage = ex.Message;
+                // Display server errors as alerts
+                await Shell.Current.DisplayAlert("Login Failed", ex.Message, "OK");
                 System.Diagnostics.Debug.WriteLine($"Login error: {ex.Message}");
-                
-                // Show alert for connection errors
-                if (ex.Message.Contains("Cannot connect") || ex.Message.Contains("not reachable"))
-                {
-                    await Shell.Current.DisplayAlert(
-                        "Connection Error",
-                        "Unable to connect to the server",
-                        "OK"
-                    );
-                }
             }
             catch (Exception ex)
             {
-                ErrorMessage = "An unexpected error occurred. Please try again.";
+                await Shell.Current.DisplayAlert("Error", "An unexpected error occurred. Please try again.", "OK");
                 System.Diagnostics.Debug.WriteLine($"Unexpected error: {ex.Message}");
             }
             finally

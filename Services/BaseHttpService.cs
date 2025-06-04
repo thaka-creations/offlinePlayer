@@ -4,6 +4,12 @@ using System.Text.Json;
 
 namespace tplayer.Services
 {
+    public class ApiErrorResponse
+    {
+        public string Message { get; set; }
+        public string Error { get; set; }
+    }
+
     public class BaseHttpService
     {
         protected readonly HttpClient _httpClient;
@@ -35,7 +41,16 @@ namespace tplayer.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new HttpRequestException($"Server returned error: {response.StatusCode} - {jsonResponse}");
+                    try
+                    {
+                        var errorResponse = JsonSerializer.Deserialize<ApiErrorResponse>(jsonResponse, _jsonOptions);
+                        var errorMessage = errorResponse?.Message ?? errorResponse?.Error ?? "An unknown error occurred";
+                        throw new HttpRequestException(errorMessage);
+                    }
+                    catch (JsonException)
+                    {
+                        throw new HttpRequestException($"Server error: {response.StatusCode}");
+                    }
                 }
 
                 return JsonSerializer.Deserialize<T>(jsonResponse, _jsonOptions);
@@ -59,7 +74,16 @@ namespace tplayer.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new HttpRequestException($"Server returned error: {response.StatusCode} - {jsonResponse}");
+                    try
+                    {
+                        var errorResponse = JsonSerializer.Deserialize<ApiErrorResponse>(jsonResponse, _jsonOptions);
+                        var errorMessage = errorResponse?.Message ?? errorResponse?.Error ?? "An unknown error occurred";
+                        throw new HttpRequestException(errorMessage);
+                    }
+                    catch (JsonException)
+                    {
+                        throw new HttpRequestException($"Server error: {response.StatusCode}");
+                    }
                 }
 
                 return JsonSerializer.Deserialize<T>(jsonResponse, _jsonOptions);
