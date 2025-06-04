@@ -1,0 +1,46 @@
+using tplayer.Config;
+using tplayer.Models;
+
+namespace tplayer.Services
+{
+    public class AuthService : BaseHttpService
+    {
+        private readonly SecureStorageService _secureStorage;
+
+        public AuthService(SecureStorageService secureStorage) : base()
+        {
+            _secureStorage = secureStorage;
+        }
+
+        public async Task<AuthResponse> LoginAsync(string username, string password)
+        {
+            var loginData = new { username, password };
+            var response = await PostAsync<AuthResponse, object>(ApiConfig.Endpoints.Login, loginData);
+            
+            if (response != null)
+            {
+                await _secureStorage.StoreAuthDataAsync(response);
+                SetAuthToken(response.AccessToken);
+            }
+
+            return response;
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _secureStorage.ClearAuthDataAsync();
+            ClearAuthToken();
+        }
+
+        public async Task<bool> InitializeAuthenticationAsync()
+        {
+            var authData = await _secureStorage.GetAuthDataAsync();
+            if (authData != null)
+            {
+                SetAuthToken(authData.AccessToken);
+                return true;
+            }
+            return false;
+        }
+    }
+} 
