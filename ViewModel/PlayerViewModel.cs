@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Core.Views;
+using Microsoft.Maui.Controls;
 using System.ComponentModel;
 
 namespace tplayer.ViewModel
@@ -33,11 +36,18 @@ namespace tplayer.ViewModel
         private int volume = 100;
 
         [ObservableProperty]
-        private MediaSource currentMedia;
+        private string currentMedia;
+
+        private MediaElement mediaElement;
 
         public PlayerViewModel()
         {
             SetupTimer();
+        }
+
+        public void SetMediaElement(MediaElement element)
+        {
+            mediaElement = element;
         }
 
         private void SetupTimer()
@@ -66,20 +76,32 @@ namespace tplayer.ViewModel
             if (e.PropertyName == nameof(Volume))
             {
                 VolumeIcon = Volume == 0 ? "🔇" : Volume < 50 ? "🔉" : "🔊";
+                if (mediaElement != null)
+                {
+                    mediaElement.Volume = Volume / 100.0;
+                }
             }
         }
 
         [RelayCommand]
         private async Task PlayPause()
         {
-            if (CurrentMedia == null)
+            if (string.IsNullOrEmpty(CurrentMedia))
             {
                 await OpenFile();
             }
-            else
+            else if (mediaElement != null)
             {
-                // This will be handled in the code-behind through the MediaElement
-                PlayPauseIcon = PlayPauseIcon == "▶" ? "⏸" : "▶";
+                if (mediaElement.CurrentState == MediaElementState.Playing)
+                {
+                    mediaElement.Pause();
+                    PlayPauseIcon = "▶";
+                }
+                else
+                {
+                    mediaElement.Play();
+                    PlayPauseIcon = "⏸";
+                }
             }
         }
 
@@ -95,8 +117,12 @@ namespace tplayer.ViewModel
                 if (result != null)
                 {
                     IsLoading = true;
-                    CurrentMedia = MediaSource.FromFile(result.FullPath);
+                    CurrentMedia = result.FullPath;
                     PlayPauseIcon = "⏸";
+                    if (mediaElement != null)
+                    {
+                        mediaElement.Play();
+                    }
                 }
             }
             catch (Exception ex)
