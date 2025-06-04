@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.Maui.Controls;
 
 namespace tplayer.Converters
 {
@@ -8,9 +9,9 @@ namespace tplayer.Converters
         {
             if (value is bool isVisible)
             {
-                return isVisible ? "eye_slash.png" : "eye.png";
+                return isVisible ? "🔓" : "🔒";  // Using Unicode emoji for better compatibility
             }
-            return "eye.png";
+            return "🔒";  // Default to locked icon
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

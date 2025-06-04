@@ -12,6 +12,16 @@
             <converters:BoolInvertConverter x:Key="BoolInvertConverter"/>
             <converters:BoolToPasswordVisibilityIconConverter x:Key="BoolToPasswordVisibilityIconConverter"/>
             <converters:BoolToPasswordVisibilityDescriptionConverter x:Key="BoolToPasswordVisibilityDescriptionConverter"/>
+            
+            <Style x:Key="PasswordToggleButton" TargetType="Button">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="#666666"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Padding" Value="8,0"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="MinimumWidthRequest" Value="44"/>
+                <Setter Property="MinimumHeightRequest" Value="44"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -39,20 +49,18 @@
                     Placeholder="Username"
                     Text="{Binding Username}"/>
 
-                <Grid ColumnDefinitions="*, Auto">
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="0">
                     <Entry 
                         Grid.Column="0"
                         Placeholder="Password"
                         Text="{Binding Password}"
                         IsPassword="{Binding IsPasswordVisible, Converter={StaticResource BoolInvertConverter}}"/>
                     
-                    <ImageButton 
+                    <Button 
                         Grid.Column="1"
-                        HeightRequest="24"
-                        WidthRequest="24"
-                        Margin="10,0,0,0"
+                        Style="{StaticResource PasswordToggleButton}"
+                        Text="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordVisibilityIconConverter}}"
                         Command="{Binding TogglePasswordVisibilityCommand}"
-                        Source="{Binding IsPasswordVisible, Converter={StaticResource BoolToPasswordVisibilityIconConverter}}"
                         SemanticProperties.Description="{Binding IsPasswordVisible, 
                             Converter={StaticResource BoolToPasswordVisibilityDescriptionConverter}}"/>
                 </Grid>
