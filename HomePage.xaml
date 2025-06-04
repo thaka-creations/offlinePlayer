@@ -29,7 +29,7 @@
         <!-- Background Image with Gradient Overlay -->
         <Grid>
             <Image Aspect="AspectFill" 
-                   Source="background.png"
+                   Source="background.jpg"
                    Opacity="0.7"/>
             <BoxView Color="#80000000" /> <!-- Semi-transparent overlay -->
         </Grid>
